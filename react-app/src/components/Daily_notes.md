@@ -225,3 +225,130 @@ function ListGroup() {
 }
 export default ListGroup;
 ```
+
+## Passing data via props
+
+Using Props, we can pass data to our components
+
+### App.tsx
+
+```
+import ListGroup from "./components/ListGroup";
+
+function App() {
+  let items = ["One", "Two", "Three", "Four", "Five"];
+  return (
+    <h1>
+      <ListGroup items={items} heading="cities" />
+    </h1>
+  );
+}
+
+export default App;
+```
+
+### ListGroup.tsx
+
+```
+import { useState } from "react";
+interface Props {
+  items: string[];
+  heading: string;
+}
+function ListGroup({ items, heading }: Props) {
+  //Hook
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  return (
+    <>
+      <h1>{heading}</h1>
+      {items.length === 0 && <p>No item found</p>}
+      <ul className="list-group">
+        {items.map((item, index) => (
+          <li
+            className={
+              selectedIndex === index
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+            key={item}
+            onClick={() => {
+              setSelectedIndex(index);
+            }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+export default ListGroup;
+```
+
+## Passing function using Props
+
+### App.tsx
+
+```
+import ListGroup from "./components/ListGroup";
+
+function App() {
+  let items = ["One", "Two", "Three", "Four", "Five"];
+
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+
+  return (
+    <h1>
+      <ListGroup
+        items={items}
+        heading="Numbers"
+        onSelectItem={handleSelectItem}
+      />
+    </h1>
+  );
+}
+
+export default App;
+```
+
+### ListGroup.tsx
+
+```
+import { useState } from "react";
+interface Props {
+  items: string[];
+  heading: string;
+  onSelectItem: (item: string) => void;
+}
+function ListGroup({ items, heading, onSelectItem }: Props) {
+  //Hook
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  return (
+    <>
+      <h1>{heading}</h1>
+      {items.length === 0 && <p>No item found</p>}
+      <ul className="list-group">
+        {items.map((item, index) => (
+          <li
+            className={
+              selectedIndex === index
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+            key={item}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(item);
+            }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+export default ListGroup;
+```
