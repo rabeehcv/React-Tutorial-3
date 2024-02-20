@@ -352,3 +352,36 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
 }
 export default ListGroup;
 ```
+## Passing children
+
+### Alert.tsx
+
+```
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+}
+const Alert = ({ children }: Props) => {
+  return <div className="alert alert-primary">{children}</div>;
+};
+
+export default Alert;
+```
+
+### App.tsx
+
+```
+import Alert from "./components/Alert";
+function App() {
+  return (
+    <div>
+      <Alert>
+        Hello <span>World</span>
+      </Alert>
+    </div>
+  );
+}
+
+export default App;
+```
